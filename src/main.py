@@ -1,3 +1,5 @@
+'''Copyright (c) 2023 amirali irvany `MIT LICENSE`'''
+
 from pyrubi import Client
 from requests import get
 from langdetect import detect
@@ -6,7 +8,7 @@ from re import sub
 
 token = '295809:6517005fc9455'
 # personal token to perform translation operations
-# to get your personal token, visit one-api.ir
+# to get your personal token, visit `one-api.ir`
 
 
 def main():
@@ -36,10 +38,10 @@ def main():
                     text=responce['message'],
                     message_id=update.message_id
                 )
-
         except KeyError:
             pass
 
+        try:
             if update.text.startswith('+'):
                 if update.text == '+':
                     client.send_text(
@@ -52,7 +54,7 @@ def main():
                         text='__Please wait...__',
                         message_id=update.message_id
                     )
-                    responce = get(f'https://chatgpt-api3.onrender.com?text={update.text}').json()
+                    responce = get(f'https://chatgpt-api3.onrender.com?text={update.text[1:]}').json()
                     client.send_text(
                         object_guid=update.object_guid,
                         text=responce['message'],
@@ -64,7 +66,7 @@ def main():
                 if update.text == 'img':
                     client.send_text(
                         object_guid=update.object_guid,
-                        text='Please Enter a text\nExample: __img amir__',
+                        text='Please Enter a text\nExample: __img wolf__',
                         message_id=update.message_id
                     )
                 else:
@@ -76,26 +78,15 @@ def main():
                     text = sub('img', '', update.text).strip()
                     request = get(f'https://haji-api.ir/prompts/?text={text}').json()
                     responce = get(choice(request['result']))
-                    with open('.img.png', 'wb') as _file:
-                        _file.write(responce.content)
+                    with open('.img.png', 'wb') as file_:
+                        file_.write(responce.content)
 
                     client.send_image(
                         object_guid=update.object_guid,
                         file='.img.png',
-                        text=f'your image is realy👍\ncontent:\"{text}\"\ndeveloper: @activate_sh',
+                        text=f'your image is realy👍\ncontent:\"{text}\"\ndeveloper: @slash_dev',
                         message_id = update.message_id,
                     )
-
-
-            elif update.text.startswith('logo'):
-                if update.text == 'logo':
-                    client.send_text(
-                        object_guid=update.object_guid,
-                        text='Please Enter a text\nExample: __logo amir__',
-                        message_id=update.message_id
-                    )
-                else:
-                    pass
 
 
             elif update.text == '$' or update.text == 'usd':
@@ -128,17 +119,17 @@ def main():
                         text='__Please wait...__',
                         message_id=update.message_id
                     )
-                    text = update.text.split('font')[-1]
+                    _text = update.text.split('font')[-1]
                     if detect(text) in ['fa', 'ar', 'ur']:
-                        request = get(f'http://api.codebazan.ir/font/?type=fa&text={text}').json()
+                        request = get(f'http://api.codebazan.ir/font/?type=fa&text={_text}').json()
                     else:
-                        request = get(f'http://api.codebazan.ir/font/?text={text}').json()
+                        request = get(f'http://api.codebazan.ir/font/?text={_text}').json()
 
-                    results = client.get_messages_by_id(
+                    _message_id = client.get_messages_by_id(
                         object_guid=update.object_guid,
                         message_ids=[update.message_id]
                     )
-                    user_guid = results['messages'][0]['author_object_guid']
+                    user_guid = _message_id['messages'][0]['author_object_guid']
                     for num in range(1, 10):
                         try:
                             client.send_text(
@@ -154,7 +145,7 @@ def main():
                             )
                     client.send_text(
                         object_guid=update.object_guid,
-                        text='The fonts have been sent to your PM',
+                        text='The fonts have been sent to your PV',
                         message_id=update.message_id
                     )
 
@@ -169,7 +160,7 @@ def main():
                 responce = choice(_responce['result']['item'])
                 client.send_text(
                     object_guid=update.object_guid,
-                    text='%s\n\n%s\n\n%s' % (
+                    text='**%s**\n\n%s\n\n__%s__' % (
                         responce['title'], responce['description'], responce['pubDate']
                     ),
                     message_id=update.message_id
@@ -198,7 +189,7 @@ def main():
                 except:
                     client.send_text(
                         object_guid=update.object_guid,
-                        text='**Please admin the robot account in the group**',
+                        text='**Please admin the robot account in the group❗**',
                         message_id=update.message_id
                     )
 
@@ -206,7 +197,7 @@ def main():
             elif update.text == 'test':
                 client.send_text(
                     object_guid=update.object_guid,
-                    text='The bot is active',
+                    text='The bot is active ✅',
                     message_id=update.message_id
                 )
 
