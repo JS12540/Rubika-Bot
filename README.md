@@ -25,3 +25,6 @@ pip install -r requirements.txt
 - This source is not compatible with Python 2
 - It is recommended to use Python 3.10 or higher
 
+## Developer 
+- Email: dev.metect@gmail.com
+- Rubika [@slash_dev](https://rubika.ir/slash_dev)
