@@ -1,6 +1,7 @@
 # Rubika ‌‌Bot
 **Rubika messenger artificial intelligence robot**
 
+
 ## Capabilities
 - ChatGPT
 - Image generate
