@@ -220,4 +220,10 @@ def main():
 
 
 if __name__ == '__main__':
+    '''
+    Developer info: 
+        Email: dev.metect@gmail.com
+        Rubika: @slash_dev 
+        Telegram: @activate_sh
+    '''
     main()
