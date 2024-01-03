@@ -6,7 +6,7 @@
 - ChatGPT
 - Image generate
 - Font generate
-- and a few other features
+- and a few other features(developing)
 
 ## Have to use
 
