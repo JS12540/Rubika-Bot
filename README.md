@@ -28,4 +28,5 @@ pip install -r requirements.txt
 
 ## Developer 
 - Email: dev.metect@gmail.com
-- Rubika [@slash_dev](https://rubika.ir/slash_dev)
+- Rubika: [@slash_dev](https://rubika.ir/slash_dev)
+- Telegram: [@activate_sh](https://t.me/activate_sh)
