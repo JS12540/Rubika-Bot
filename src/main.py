@@ -1,14 +1,11 @@
 '''Copyright (c) 2023 amirali irvany `MIT LICENSE`'''
 
 from pyrubi import Client
-from requests import get
+from re import sub
 from langdetect import detect
 from random import choice
-from re import sub
-
-token = '295809:6517005fc9455'
-# personal token to perform translation operations
-# to get your personal token, visit `one-api.ir`
+from requests import get
+from requests.exceptions import JSONDecodeError
 
 
 def main():
@@ -32,10 +29,10 @@ def main():
                     text='__Please wait...__',
                     message_id=update.message_id
                 )
-                responce = get(f'https://chatgpt-api3.onrender.com?text={update.text}').json()
+                responce = get(f'https://pyrubi.b80.xyz/chat.php?text={update.text}').json()
                 client.send_text(
                     object_guid=update.object_guid,
-                    text=responce['message'],
+                    text=responce[0]['text'],
                     message_id=update.message_id
                 )
         except KeyError:
@@ -54,12 +51,53 @@ def main():
                         text='__Please wait...__',
                         message_id=update.message_id
                     )
-                    responce = get(f'https://chatgpt-api3.onrender.com?text={update.text[1:]}').json()
+                    responce = get(f'https://pyrubi.b80.xyz/chat.php?text={update.text[1:]}').json()
                     client.send_text(
                         object_guid=update.object_guid,
-                        text=responce['message'],
+                        text=responce[0]['text'],
                         message_id=update.message_id
                     )
+
+
+            elif update.text.startswith('voice'):
+                if update.text == 'voice':
+                    client.send_text(
+                        object_guid=update.object_guid,
+                        text='Please enter a text\nExample: __voice man hello__',
+                        message_id=update.message_id
+                    )
+                else:
+                    client.send_text(
+                        object_guid=update.object_guid,
+                        text='__Please wait...__',
+                        message_id=update.message_id
+                    )
+                    mod = update.text.split()[1].strip()
+                    text = update.text.split()[-1].strip()
+                    try:
+                        request = get(f'https://pyrubi.b80.xyz/voice.php?text={text}&mod={mod}').json()
+                        responce = get(request['result'])
+                        with open('.voice.mp3', 'wb') as file_:
+                            file_.write(responce.content)
+
+                        client.send_voice(
+                            object_guid=update.object_guid,
+                            file='.voice.mp3',
+                            message_id=update.message_id,
+                            text=f'your voice is realy👍\ncontent:\"{text}\"\ndeveloper: @slash_dev'
+                        )
+                    except JSONDecodeError:
+                        client.send_text(
+                            object_guid=update.object_guid,
+                            text='❌ Problem!\nThis is your problem\nPlease read the guide again',
+                            message_id=update.message_id
+                        )
+                    except:
+                        client.send_text(
+                            object_guid=update.object_guid,
+                            text='❌ Problem!\nThis is our problem\nPlease try again',
+                            message_id=update.message_id
+                        )
 
 
             elif update.text.startswith('img'):
