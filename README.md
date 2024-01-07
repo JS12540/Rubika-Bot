@@ -4,6 +4,7 @@
 
 ## Capabilities
 - ChatGPT
+- Voice generate
 - Image generate
 - Font generate
 - and a few other features(developing)
