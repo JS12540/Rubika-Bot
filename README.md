@@ -20,7 +20,7 @@ python -m venv venv # Create virtualenv named venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-5. run `python main.py`
+5. run `python src/main.py`
 
 ### Note
 - No need to enter Auth
