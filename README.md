@@ -26,4 +26,3 @@ pip install -r requirements.txt
 ## Developer 
 - Email: dev.amirali.irvany@gmail
 - Rubika: [@slash_dev](https://rubika.ir/slash_dev)
-- Telegram: [@activate_sh](https://t.me/activate_sh)
