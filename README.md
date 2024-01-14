@@ -21,11 +21,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 5. run `python src/main.py`
-
-### Note
-- No need to enter Auth
-- This source is not compatible with Python 2
-- It is recommended to use Python 3.10 or higher
+6. 
 
 ## Developer 
 - Email: dev.amirali.irvany@gmail
