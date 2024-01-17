@@ -1,8 +1,8 @@
 # my change
 .idea/
-src/.img.png
-src/.voice.mp3
-src/session.pyrubi
+.img.png
+.voice.mp3
+*.pyrubi
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,8 +1,9 @@
 '''Copyright (c) 2023 amirali irvany `MIT LICENSE`'''
 
+from re import sub, findall
 from pyrubi import Client
-from re import sub
 from langdetect import detect
+from subprocess import getoutput
 from random import choice, randint
 from requests import get, exceptions
 
@@ -10,22 +11,28 @@ from requests import get, exceptions
 groups = [
     '',
 ]
-# Your personal token from one-api.ir site. No need to change
+# No need to change
 token = '295809:6517005fc9455'
 
 
 def main():
-    client = Client(session='session', time_out=10)
+
+    TIMEOUT = 10
+    client = Client(session='session', time_out=TIMEOUT)
     for guid in groups:
         if guid.strip() == '':
             groups.remove(guid)
 
-        result = client.get_chat_info(object_guid=guid)
-        group_name = result['group']['group_title']
-        client.send_text(
-            object_guid=guid,
-            text=f'The bot was successfully activated in the {group_name} group'
-        )
+        # join_status = client.join_chat(guid_or_link=guid)
+        try:
+            result = client.get_chat_info(object_guid=guid)
+            group_name = result['group']['group_title']
+            client.send_text(
+                object_guid=guid,
+                text=f'The bot was successfully activated in the {group_name} group'
+            )
+        except Exception as err:
+            print(err)
 
     for update in client.on_message(filters=['Channel', 'User']):
         if update.object_guid in groups:
@@ -151,12 +158,16 @@ def main():
                         text='__Please wait...__',
                         message_id=update.message_id
                     )
-                    _responce = get(f'https://one-api.ir/price/?token={token}').json()
-                    responce = _responce['result']['currencies']['dollar']
+                    responce = get(f'https://one-api.ir/price/?token={token}').json()
+                    dollar = responce['result']['currencies']['dollar']
+                    euro = responce['result']['currencies']['eur']
+                    gold = responce['result']['gold']['geram24']
                     client.send_text(
                         object_guid=update.object_guid,
-                        text='**Us Dollar:**\n\nAverage: __%s__\nMax: __%s__\nMin: __%s__' % (
-                            responce['p'], responce['h'], responce['l']
+                        text='💵 **Us Dollar:**\nAverage: __%s__\nMax: __%s__\nMin: __%s__\n\n'
+                             '💶 **Euro:**\nAverage: __%s__\nMax: __%s__\nMin: __%s__\n\n' 
+                             '🧈 **Gold:**\nAverage: __%s__\nMax: __%s__\nMin: __%s__' % (
+                             dollar['p'], dollar['h'], dollar['l'], euro['p'], euro['h'], euro['l'], gold['p'], gold['h'], gold['h']
                         ),
                         message_id=update.message_id
                     )
@@ -267,12 +278,24 @@ def main():
                     )
 
 
+                elif update.text == 'ping':
+                    _output = getoutput('ping -c 1 4.2.2.4')
+                    results = findall(r'time=(.*)\ ', _output)
+                    client.send_text(
+                        object_guid=update.object_guid,
+                        text=f'🌐 Ping now: **{str(results[0])}**',
+                        message_id=update.message_id
+                    )
+
+
             except TimeoutError:
                 client.send_text(
                     object_guid=update.object_guid,
                     text='timeout-err',
                     message_id=update.message_id
                 )
+
+            except Exception as err: print(err)
 
 
 if __name__ == '__main__':
