@@ -20,8 +20,3 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 5. run `python src/main.py`
-6. 
-
-## Developer 
-- Email: dev.amirali.irvany@gmail
-- Rubika: [@slash_dev](https://rubika.ir/slash_dev)
