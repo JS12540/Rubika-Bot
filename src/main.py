@@ -116,7 +116,7 @@ def main():
                             client.send_image(
                                 object_guid=update.object_guid,
                                 file='.img.png',
-                                text=f'your image is realy👍\ncontent:\"{_text}\"\ndeveloper: @slash_dev',
+                                text=f'your image is realy👍\ncontent:\"{_text}\"\ndeveloper: @ohmyz_sh',
                                 message_id = update.message_id,
                             )
                         except Exception:
@@ -329,10 +329,4 @@ def main():
 
 
 if __name__ == '__main__':
-    '''
-    Developer info: 
-        Email: dev.metect@gmail.com
-        Rubika: @slash_dev 
-        Telegram: @activate_sh
-    '''
     main()
